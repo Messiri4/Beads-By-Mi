@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 const ObjectID = mongoose.Schema.Types.ObjectId;
 
-const itemSchema = new mongoose.Schema(
+const productSchema = new mongoose.Schema(
   {
     owner: {
-      type: ObjectID,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
@@ -12,6 +12,10 @@ const itemSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+    },
+    image: {
+      type: String,
+      required: true,
     },
     description: {
       type: String,
@@ -31,4 +35,4 @@ const itemSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Item", itemSchema);
+export default mongoose.model("Product", productSchema);

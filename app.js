@@ -5,6 +5,7 @@ import morgan from "morgan";
 import mongoose from "mongoose";
 import "express-async-errors";
 import userRouter from "./routers/user.js";
+import productRouter from "./routers/product.js";
 
 const app = express();
 app.use(express.json());
@@ -19,7 +20,9 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.use("/api/users", userRouter);
+ //localhost:3000/api/v1/users/register
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/products", productRouter);
 
 app.use("*", (req, res) => {
   res.status(404).json({ msg: "not found" });
