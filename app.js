@@ -4,8 +4,13 @@ import express from "express";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import "express-async-errors";
-import userRouter from "./routers/user.js";
+
+// routers
+import authRouter from "./routers/auth.js";
 import productRouter from "./routers/product.js";
+
+// middleware
+import errorHandler from "./middleware/errorHandler.js";
 
 const app = express();
 app.use(express.json());
@@ -20,13 +25,18 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
- //localhost:3000/api/v1/users/register
-app.use("/api/v1/users", userRouter);
+ //check out a better way to store this URL: localhost:3000/api/v1/users/register
+
+ // auth router
+app.use("/api/v1/users", authRouter);
+// product router
 app.use("/api/v1/products", productRouter);
 
 app.use("*", (req, res) => {
   res.status(404).json({ msg: "not found" });
 });
+
+app.use(errorHandler)
 
 const port = process.env.PORT || 3000;
 

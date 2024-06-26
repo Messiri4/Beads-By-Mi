@@ -22,15 +22,37 @@ const withValidationErrors = (validateValues) => {
 };
 
 export const validateRegisterInput = withValidationErrors([
-    body("name").notEmpty().withMessage("name is required"),
-    body("email").notEmpty().withMessage("email is required").isEmail().withMessage("invalid email format").custom(async (email) => {
-        const user = await User.findOne({email})
-        if (user) {
-            throw new BadRequestError("email already exists")
-        }
+  body("name").notEmpty().withMessage("name is required"),
+  body("email")
+    .notEmpty()
+    .withMessage("email is required")
+    .isEmail()
+    .withMessage("invalid email format")
+    .custom(async (email) => {
+      const user = await User.findOne({ email });
+      if (user) {
+        throw new BadRequestError("email already exists");
+      }
     }),
-    body("password").notEmpty().withMessage("password is required").isLength({min: 8}).withMessage("password must be at least 8 characters long"),
-])
+  body("password")
+    .notEmpty()
+    .withMessage("password is required")
+    .isLength({ min: 8 })
+    .withMessage("password must be at least 8 characters long"),
+]);
+
+export const validateLoginInput = withValidationErrors([
+  body("email")
+    .notEmpty()
+    .withMessage("email is required")
+    .isEmail()
+    .withMessage("invalid email format"),
+  body("password")
+    .notEmpty()
+    .withMessage("password is required")
+    .isLength({ min: 8 })
+    .withMessage("password must be at least 8 characters long"),
+]);
 
 export const validateProductInput = withValidationErrors([
   body("owner").notEmpty().withMessage("owner id is required"),
@@ -41,11 +63,11 @@ export const validateProductInput = withValidationErrors([
 ]);
 
 export const validateIdParam = withValidationErrors([
-  param("id").custom(async(value)=> {
-    const isValidId = mongoose.Types.ObjectId.isValid(value)
-    if(!isValidId) throw new BadRequestError("invalid MongoDB id")
+  param("id").custom(async (value) => {
+    const isValidId = mongoose.Types.ObjectId.isValid(value);
+    if (!isValidId) throw new BadRequestError("invalid MongoDB id");
     const product = await Product.findById(value);
 
-    if(!product) throw new NotFoundError(`no product with id ${value}`)
-  })
-])
+    if (!product) throw new NotFoundError(`no product with id ${value}`);
+  }),
+]);

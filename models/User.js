@@ -22,6 +22,38 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    street: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    apartment: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    city: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    zip: {
+      type: String,
+      trim: true,
+    },
+    country: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    phone: {
+      type: Number,
+      required: true,
+    },
+    isAdmin: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,
