@@ -10,6 +10,7 @@ export const createProduct = async (req, res) => {
 
 // get all products
 export const getAllProducts = async (req, res) => {
+    // console.log(req.user);
     const products = await Product.find({})
     res.status(StatusCodes.OK).json({products})
 }
