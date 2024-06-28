@@ -6,9 +6,12 @@ import mongoose from "mongoose";
 import "express-async-errors";
 import cookieParser from "cookie-parser";
 
-// routers
+// Routes
 import authRouter from "./routers/auth.js";
 import productRouter from "./routers/product.js";
+import userRouter from "./routers/users.js";
+import orderRouter from "./routers/order.js";
+import categoryRouter from "./routers/categories.js";
 
 // middleware
 import errorHandler from "./middleware/errorHandler.js";
@@ -28,14 +31,16 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-
-
-//check out a better way to store this URL: localhost:3000/api/v1/users/register
+const api = process.env.API_URL;
 
 // auth router
 app.use("/api/v1/auth", authRouter);
-// product router
+
+// routers
 app.use("/api/v1/products", authenticateUser, productRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/orders", orderRouter);
+app.use("/api/v1/categories", categoryRouter);
 
 app.use("*", (req, res) => {
   res.status(404).json({ msg: "not found" });

@@ -3,6 +3,7 @@ import { BadRequestError, NotFoundError } from "../errors/customErrors.js";
 import mongoose from "mongoose";
 import User from "../models/User.js";
 import Product from "../models/Product.js";
+import Category from "../models/Category.js";
 
 const withValidationErrors = (validateValues) => {
   return [
@@ -21,6 +22,7 @@ const withValidationErrors = (validateValues) => {
   ];
 };
 
+// validate register input
 export const validateRegisterInput = withValidationErrors([
   body("name").notEmpty().withMessage("name is required"),
   body("email")
@@ -41,6 +43,7 @@ export const validateRegisterInput = withValidationErrors([
     .withMessage("password must be at least 8 characters long"),
 ]);
 
+// validate login input
 export const validateLoginInput = withValidationErrors([
   body("email")
     .notEmpty()
@@ -54,14 +57,28 @@ export const validateLoginInput = withValidationErrors([
     .withMessage("password must be at least 8 characters long"),
 ]);
 
+// validate product input
 export const validateProductInput = withValidationErrors([
-  body("owner").notEmpty().withMessage("owner id is required"),
   body("name").notEmpty().withMessage("name is required"),
   body("description").notEmpty().withMessage("description is required"),
-  body("category").notEmpty().withMessage("category is required"),
+  body("category")
+    .notEmpty()
+    .withMessage("category is required")
+    .custom(async (id) => {
+      const isCategoryId = mongoose.Types.ObjectId.isValid(id);
+      if (!isCategoryId) throw new BadRequestError("invalid MongoDB id");
+      const category = await Category.findById(id);
+      if (!category) throw new NotFoundError(`no category with id ${id}`);
+    }),
   body("price").notEmpty().withMessage("price is required"),
+  body("countInStock")
+    .notEmpty()
+    .withMessage("amount of products in stock is required")
+    .isInt({ min: 0, max: 255 })
+    .withMessage("amount of products can only be between 0 and 255"),
 ]);
 
+// validate id parameter
 export const validateIdParam = withValidationErrors([
   param("id").custom(async (value) => {
     const isValidId = mongoose.Types.ObjectId.isValid(value);
@@ -70,4 +87,11 @@ export const validateIdParam = withValidationErrors([
 
     if (!product) throw new NotFoundError(`no product with id ${value}`);
   }),
+]);
+
+// validate category input
+export const validateCategoryInput = withValidationErrors([
+  body("name").notEmpty().withMessage("name is required"),
+  body("icon").notEmpty().withMessage("icon is required"),
+  body("color").notEmpty().withMessage("color is required"),
 ]);
