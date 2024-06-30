@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken"
-// import jwt from "express-jwt"
 
 
 export const createJWT = (payload) => {
