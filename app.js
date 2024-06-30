@@ -17,6 +17,7 @@ import categoryRouter from "./routers/categories.js";
 import errorHandler from "./middleware/errorHandler.js";
 import { authenticateUser } from "./middleware/auth.js";
 
+
 const app = express();
 app.use(express.json());
 
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(cookieParser());
 app.use(express.json());
+
 
 app.get("/", (req, res) => {
   res.send("Hello World");

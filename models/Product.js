@@ -58,10 +58,22 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    createdBy: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
   }
 );
+
+productSchema.virtual('id').get(function () {
+  return this._id.toHexString()
+})
+
+productSchema.set('toJSON', {
+  virtuals: true,
+})
 
 export default mongoose.model("Product", productSchema);
