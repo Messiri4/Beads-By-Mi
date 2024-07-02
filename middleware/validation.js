@@ -76,7 +76,7 @@ export const validateProductInput = withValidationErrors([
     .withMessage("amount of products in stock is required")
     .isInt({ min: 0, max: 255 })
     .withMessage("amount of products can only be between 0 and 255"),
-  body("createdBy").notEmpty().withMessage("user id is required")
+  // body("createdBy").notEmpty().withMessage("user id is required")
 ]);
 
 // validate id parameter

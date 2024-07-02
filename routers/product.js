@@ -8,7 +8,7 @@ import {
   getAllFeaturedProducts,
   getProduct,
   getProductCount,
-  // getProductsByName,
+  getUserProducts,
   updateProduct,
   getFeaturedProducts,
 } from "../controllers/productController.js";
@@ -19,7 +19,7 @@ import {
 
 router.post("/", validateProductInput, createProduct);
 router.get("/", getAllProducts);
-// router.get("/name", getProductsByName);
+router.get("/user-products/:id", getUserProducts);
 router.get("/isFeatured", getAllFeaturedProducts);
 router.get("/isFeatured/:count", getFeaturedProducts);
 router.get("/count", getProductCount);

@@ -1,10 +1,10 @@
 import Product from "../models/Product.js";
 import { StatusCodes } from "http-status-codes";
-import { NotFoundError } from "../errors/customErrors.js";
+import { BadRequestError, NotFoundError } from "../errors/customErrors.js";
 
 // create product
 export const createProduct = async (req, res) => {
-  req.body.createdBy = req.user.userId
+  req.body.createdBy = req.user.userId;
   const product = await Product.create(req.body);
   res.status(StatusCodes.CREATED).json({ product });
 };
@@ -16,20 +16,37 @@ export const getAllProducts = async (req, res) => {
   if (req.query.categories){
     filter = {category: req.query.categories.split(',')}
   }
-  const products = await Product.find({createdBy: req.user.userId},filter).populate('category');
+  const products = await Product.find(filter).populate('category');
   res.status(StatusCodes.OK).json({ products });
 };
 
-// // get products by name
-// export const getProductsByName = async (req, res) => {
-//   // console.log(req.user);
-//   const products = await Product.find().select("name");
-//   res.status(StatusCodes.OK).json({ products });
-// };
+// get products by user
+export const getUserProducts = async (req, res) => {
+  const products = await Product.find({ createdBy: req.user.userId });
+  res.status(StatusCodes.OK).json({ products });
+}
+
+// fix bug: only logged in user should be able to edit this api
+//issue: api cant recognize userId
+export const updateProduct = async (req, res) => {
+  const updateProduct = await Product.findByIdAndUpdate(
+    req.user.userId,
+    req.body,
+    {
+      new: true,
+    }
+  );
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "product modified", product: updateProduct });
+};
+
 
 // get single products
 export const getProduct = async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  const product = await Product.findById(
+    req.params.id
+  );
   res.status(StatusCodes.OK).json({ product });
 };
 
@@ -55,19 +72,7 @@ export const getFeaturedProducts = async (req, res) => {
     res.status(StatusCodes.OK).json({ isFeaturedProducts: products });
 };
 
-// update product
-export const updateProduct = async (req, res) => {
-  const updateProduct = await Product.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-    }
-  );
-  res
-    .status(StatusCodes.OK)
-    .json({ msg: "product modified", product: updateProduct });
-};
+
 
 // delete product
 export const deleteProduct = async (req, res) => {
