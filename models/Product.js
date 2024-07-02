@@ -61,6 +61,7 @@ const productSchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
+      immutable: true,
     },
   },
   {

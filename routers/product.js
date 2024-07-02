@@ -9,8 +9,9 @@ import {
   getProduct,
   getProductCount,
   getUserProducts,
-  updateProduct,
+  updateAdminProduct,
   getFeaturedProducts,
+  updateUserProduct,
 } from "../controllers/productController.js";
 import {
   validateProductInput,
@@ -18,13 +19,30 @@ import {
 } from "../middleware/validation.js";
 
 router.post("/", validateProductInput, createProduct);
-router.get("/", getAllProducts);
-router.get("/user-products/:id", getUserProducts);
+
+//admin
+router.patch(
+  "/admin/:id",
+  validateProductInput,
+  validateIdParam,
+  updateAdminProduct
+);
+router.get("/count", getProductCount);
 router.get("/isFeatured", getAllFeaturedProducts);
 router.get("/isFeatured/:count", getFeaturedProducts);
-router.get("/count", getProductCount);
+router.get("/", getAllProducts);
+
+//user
+
+router.get("/user-products/", getUserProducts);
 router.get("/:id", validateIdParam, getProduct);
-router.patch("/:id", validateProductInput, validateIdParam, updateProduct);
+
+router.patch(
+  "/user/:id",
+  validateProductInput,
+  validateIdParam,
+  updateUserProduct
+);
 router.delete("/:id", validateIdParam, deleteProduct);
 
 export default router;
