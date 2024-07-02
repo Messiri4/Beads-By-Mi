@@ -33,10 +33,8 @@ router.get("/isFeatured/:count", getFeaturedProducts);
 router.get("/", getAllProducts);
 
 //user
-
 router.get("/user-products/", getUserProducts);
 router.get("/:id", validateIdParam, getProduct);
-
 router.patch(
   "/user/:id",
   validateProductInput,

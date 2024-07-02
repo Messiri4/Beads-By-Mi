@@ -91,6 +91,10 @@ export const getFeaturedProducts = async (req, res) => {
 
 // delete product
 export const deleteProduct = async (req, res) => {
+  const product = await Product.findById(req.params.id);
+  if (product?.createdBy?.toString() !== req.user.userId) {
+    throw new BadRequestError("user not authorized");
+  }
   const deletedProduct = await Product.findByIdAndDelete(req.params.id);
   res
     .status(StatusCodes.OK)
