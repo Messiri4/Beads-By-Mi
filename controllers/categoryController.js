@@ -18,6 +18,7 @@ export const deleteCategory = async (req, res) => {
     .status(StatusCodes.OK)
     .json({ msg: "category deleted", product: deletedCategory });
 };
+
 // get category list
 export const getCategoryList = async (req, res) => {
   const categoryList = await Category.find();

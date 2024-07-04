@@ -90,6 +90,16 @@ export const validateIdParam = withValidationErrors([
   }),
 ]);
 
+export const validateUserIdParam = withValidationErrors([
+  param("id").custom(async (value) => {
+    const isValidId = mongoose.Types.ObjectId.isValid(value);
+    if (!isValidId) throw new BadRequestError("invalid MongoDB id");
+    const user = await User.findById(value);
+
+    if (!user) throw new NotFoundError(`no user with id ${value}`);
+  }),
+]);
+
 // validate category input
 export const validateCategoryInput = withValidationErrors([
   body("name").notEmpty().withMessage("name is required"),
