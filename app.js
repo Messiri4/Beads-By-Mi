@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import "express-async-errors";
 import cookieParser from "cookie-parser";
 
+
 // Routes
 import authRouter from "./routers/auth.js";
 import productRouter from "./routers/product.js";
@@ -41,7 +42,7 @@ app.use("/api/v1/auth", authRouter);
 // routers
 app.use("/api/v1/products", authenticateUser, productRouter);
 app.use("/api/v1/users", userRouter);
-app.use("/api/v1/orders", orderRouter);
+app.use("/api/v1/orders", authenticateUser, orderRouter);
 app.use("/api/v1/categories", categoryRouter);
 
 app.use("*", (req, res) => {

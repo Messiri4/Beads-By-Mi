@@ -83,7 +83,7 @@ export const validateProductInput = withValidationErrors([
 export const validateIdParam = withValidationErrors([
   param("id").custom(async (value) => {
     const isValidId = mongoose.Types.ObjectId.isValid(value);
-    if (!isValidId) throw new BadRequestError("invalid MongoDB id");
+    if (!isValidId) throw new BadRequestError("invalid product id");
     const product = await Product.findById(value);
 
     if (!product) throw new NotFoundError(`no product with id ${value}`);
@@ -93,7 +93,7 @@ export const validateIdParam = withValidationErrors([
 export const validateUserIdParam = withValidationErrors([
   param("id").custom(async (value) => {
     const isValidId = mongoose.Types.ObjectId.isValid(value);
-    if (!isValidId) throw new BadRequestError("invalid MongoDB id");
+    if (!isValidId) throw new BadRequestError("invalid user id");
     const user = await User.findById(value);
 
     if (!user) throw new NotFoundError(`no user with id ${value}`);
@@ -105,4 +105,32 @@ export const validateCategoryInput = withValidationErrors([
   body("name").notEmpty().withMessage("name is required"),
   body("icon").notEmpty().withMessage("icon is required"),
   body("color").notEmpty().withMessage("color is required"),
+]);
+
+// validate order items
+// export const validateOrderItemInput = withValidationErrors([
+//   body("quantity").notEmpty().withMessage("quantity is required"),
+//   body("product").notEmpty().withMessage("product is required").custom(async (id) => {
+//     const isProductId = mongoose.Types.ObjectId.isValid(id)
+//     if (!isProductId) throw new BadRequestError("invalid product id")
+//       const product = await Product.findById(id)
+//     if(!product) throw new NotFoundError(`no product with id ${id}`)
+//   })
+// ])
+
+//validate order input
+export const validateOrderInput = withValidationErrors([
+  // body("orderItems").notEmpty().withMessage("order item is required"),
+  body("shippingAddress1")
+    .notEmpty()
+    .withMessage("shipping address is required"),
+  body("city").notEmpty().withMessage("city is required"),
+  body("country").notEmpty().withMessage("country is required"),
+  body("phone").notEmpty().withMessage("phone number is required"),
+  body("user").notEmpty().withMessage("user is required").custom(async (id) => {
+    const isUserId = mongoose.Types.ObjectId.isValid(id)
+    if (!isUserId) throw new BadRequestError("invalid user id")
+      const user = await User.findById(id)
+    if(!user) throw new NotFoundError(`no user with id ${id}`)
+  }),
 ]);
