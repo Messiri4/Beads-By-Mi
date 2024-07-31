@@ -5,46 +5,17 @@ import validator from "validator";
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-    },
+    // name: {
+    //   type: String,
+    //   required: true,
+    //   trim: true,
+    //   lowercase: true,
+    // },
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    street: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    apartment: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    city: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    zip: {
-      type: String,
-      trim: true,
-    },
-    country: {
-      type: String,
-      required: true,
-      trim: true,
     },
     phone: {
       type: Number,
@@ -54,6 +25,43 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    // password: {
+    //   type: String,
+    //   required: true,
+    //   trim: true,
+    // },
+    // street: {
+    //   type: String,
+    //   required: true,
+    //   trim: true,
+    // },
+    // apartment: {
+    //   type: String,
+    //   required: true,
+    //   trim: true,
+    // },
+    // city: {
+    //   type: String,
+    //   required: true,
+    //   trim: true,
+    // },
+    // zip: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // country: {
+    //   type: String,
+    //   required: true,
+    //   trim: true,
+    // },
+    // phone: {
+    //   type: Number,
+    //   required: true,
+    // },
+    // isAdmin: {
+    //   type: Boolean,
+    //   required: true,
+    // },
   },
   {
     timestamps: true,

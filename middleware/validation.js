@@ -24,7 +24,7 @@ const withValidationErrors = (validateValues) => {
 
 // validate register input
 export const validateRegisterInput = withValidationErrors([
-  body("name").notEmpty().withMessage("name is required"),
+  // body("name").notEmpty().withMessage("name is required"),
   body("email")
     .notEmpty()
     .withMessage("email is required")
@@ -36,11 +36,12 @@ export const validateRegisterInput = withValidationErrors([
         throw new BadRequestError("email already exists");
       }
     }),
-  body("password")
-    .notEmpty()
-    .withMessage("password is required")
-    .isLength({ min: 8 })
-    .withMessage("password must be at least 8 characters long"),
+  // body("password")
+  //   .notEmpty()
+  //   .withMessage("password is required")
+  //   .isLength({ min: 8 })
+  //   .withMessage("password must be at least 8 characters long"),
+  body("phone").notEmpty().withMessage("phone number is required").isLength({ min: 10 }).withMessage("phone number must be at least 10 characters long"),
 ]);
 
 // validate login input

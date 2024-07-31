@@ -7,8 +7,8 @@ import { createJWT } from "../utils/tokenUtils.js";
 
 export const register = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await hashPassword(req.body.password);
-  req.body.password = hashedPassword;
+  // const hashedPassword = await hashPassword(req.body.password);
+  // req.body.password = hashedPassword;
 
   //   check for isAdmin or toggle isAdmin
 
@@ -22,7 +22,7 @@ export const login = async (req, res) => {
 
   //check if password is correct
   const isValidUser =
-    user && (await comparePassword(req.body.password, user.password));
+    user && (await comparePassword(req.body.password, user.phone));
   if (!isValidUser) throw new UnauthenticatedError("invalid credentials");
 
   const token = createJWT({ userId: user._id, isAdmin: user.isAdmin });
